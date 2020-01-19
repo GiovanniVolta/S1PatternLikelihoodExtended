@@ -36,15 +36,17 @@ data = hax.minitrees.load_cache_file(file_)
 ### Pre Selection ###
 
 #### Fiducial volume: z_3d_nn_tf < -13.45 & z_3d_nn_tf > -83.45 & r_3d_nn_tf < 39.85 ###
+#### FV of 1T: (-92.9 < z_3d_nn) & (z_3d_nn < -9) & (r_3d_nn < 36.94 ###
 
-data['CutFiducialization'] = (data['z_3d_nn_tf'] < -13.45)&(data['z_3d_nn_tf'] > -83.45)&(data['r_3d_nn_tf'] < 39.85)
-data = hax.cuts.selection(data, data['CutFiducialization'] == True, desc='CutFiducialization')
+#data['CutFiducialization'] = (data['z_3d_nn_tf'] < -13.45)&(data['z_3d_nn_tf'] > -83.45)&(data['r_3d_nn_tf'] < 39.85)
+data['CutFiducialization1T'] = (data['z_3d_nn_tf'] > -92.9)&(data['z_3d_nn_tf'] < -9)&(data['r_3d_nn_tf'] < 36.94)
+data = hax.cuts.selection(data, data['CutFiducialization1T'] == True, desc='CutFiducialization1T')
 
 ### S2 single scatter HE: https://github.com/XENON1T/lax/blob/master/lax/lichens/postsr1.py ###
 
-#CutS2SingleScatter_HE = postsr1.S2SingleScatter_HE()
-#data = CutS2SingleScatter_HE.process(data)
-#data = hax.cuts.selection(data, data['CutS2SingleScatter_HE'] == True, desc='CutS2SingleScatter_HE')
+CutS2SingleScatter_HE = postsr1.S2SingleScatter_HE()
+data = CutS2SingleScatter_HE.process(data)
+data = hax.cuts.selection(data, data['CutS2SingleScatter_HE'] == True, desc='CutS2SingleScatter_HE')
 
 #### DAQVeto, Flash and MuonVeto ###
 
@@ -104,9 +106,9 @@ data = hax.cuts.selection(data, data['CutPosDiff_HE'] == True, desc='CutPosDiff_
 
 ### S2 Pattern Likelihood ###
 
-#CutS2PatternLikelihood = postsr1.S2PatternLikelihood()
-#data = CutS2PatternLikelihood.process(data)
-#data = hax.cuts.selection(data, data['CutS2PatternLikelihood'] == True, desc='CutS2PatternLikelihood')
+CutS2PatternLikelihood = postsr1.S2PatternLikelihood()
+data = CutS2PatternLikelihood.process(data)
+data = hax.cuts.selection(data, data['CutS2PatternLikelihood'] == True, desc='CutS2PatternLikelihood')
 
 ### Cut history ###
 
